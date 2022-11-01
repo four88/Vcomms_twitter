@@ -13,7 +13,7 @@ The objective of this project to find the impact of climate change of human well
 
 ## Data processing flowchart
 
-![flowchart with out twitter api](./assets/flowchartNoApi.png)
+![flowchart with out twitter api](./assets/flowchart.png)
 
 ### Data collection and cleansing
 #### Without Twitter api token 
