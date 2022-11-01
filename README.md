@@ -59,7 +59,7 @@ Then you will get the CSV file name __tweetCleanedApi.py__. This data already cl
 
 ### Sentiment analysis
 After that using Azure cognative service for Sentiment analysis. You need to create Azure account. then create cognative service (Language Service) on Azure. You will get the endpoint URL and Keys for connect to the service.
-![Azure cognative service](./assets/azure)
+![Azure cognative service](./assets/azure.png)
 
 For connect to Sentiment analysis Azure 
 add your __ENDPOINT__ and __KEYS__ in __sentiment.py__
