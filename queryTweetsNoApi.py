@@ -9,8 +9,9 @@ words = set(nltk.corpus.words.words())
 
 query = '"climate change" (flood OR flooding) lang:en until:2022-10-25 since:2021-10-25 -filter:replies'
 tweets = []
-limit = 500
+limit = 50
 
+print(u"Processing records in data frame...")
 for tweet in sntwitter.TwitterSearchScraper(query).get_items():
     if len(tweets) == limit:
         break
@@ -32,5 +33,5 @@ def cleaner(tweet):
     return tweet
 df['tweet'] =df['tweet'].map(lambda x: cleaner(x))
 
-df.to_csv('tweetsCleanedNoApi2.csv')
-
+df.to_csv('tweetsCleanedNoApi.csv')
+print(u"Processing completed....")

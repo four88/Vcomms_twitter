@@ -1,19 +1,19 @@
-
 import snscrape.modules.twitter as sntwitter
 import pandas as pd
-
 import re
 import emoji
 import nltk
-import config
 import tweepy
+from decouple import config
+
+BEARER_TOKEN = config('BEARER_TOKEN', default='')
 
 nltk.download('words')
 words = set(nltk.corpus.words.words())
 
-client = tweepy.Client(bearer_token = config.BEARER_TOKEN)
+client = tweepy.Client(bearer_token = BEARER_TOKEN)
 
-query = 'flooding flood -is:retweet place_country:AC' # search keyword
+query = 'flooding flood -is:retweet' # search keyword
 
 start_time = '2021-10-24T00:00:00Z'
 end_time = '2022-10-24T00:00:00Z'

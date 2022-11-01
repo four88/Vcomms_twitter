@@ -1,9 +1,11 @@
 import pandas as pd
 import requests
+from decouple import config
 
-subscription_key = "ce4af7c4b08e4385bf51e159f6a168c7"
+subscription_key = config('subscription_key', default='')
 headers = {"Ocp-Apim-Subscription-Key": subscription_key}
 endpoint = "https://climatechangecog.cognitiveservices.azure.com/"
+
 sentiment_url = endpoint + "/text/analytics/v3.0/sentiment"
 
 
@@ -21,7 +23,6 @@ def comment_sentiment(comment=None, cid=None):
         body = {"documents": [document]}
         res = requests.post(sentiment_url,  headers=headers, json=body)
         data = res.json()
-        # Extract key phrases
         return data
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
@@ -66,7 +67,7 @@ def main(comment_df):
     df2.reset_index(drop=True, inplace=True)
     print(u"Processing records in data frame....")
     for i, row in df2.iterrows():
-        # print(u"Processing Record... #{}".format(i+1))
+        print(u"Processing Record... #{}".format(i+1))
         text_data = df2.loc[i, "tweet"].encode(
             "utf-8").decode("ascii", "ignore")
         sentimentResult = comment_sentiment(text_data, i+1)
@@ -94,11 +95,11 @@ def main(comment_df):
 if __name__ == "__main__":
     # read comment data from csv
     commentData = pd.read_csv(
-        "tweetsCleanedNoApi2.csv")
+        "tweetsCleanedNoApi.csv")
 
     # Remove duplicated record but keep the first occurence of the record
     commentData.drop_duplicates(keep='first', inplace=True)
     # Reindex the data frame to prevent gaps in the indexes
     commentData.reset_index(drop=True, inplace=True)
     df = main(commentData)
-    df.to_csv('sentimentResult.csv', index=False, header=True)
+    df.to_csv('sentimentResult2.csv', index=False, header=True)
