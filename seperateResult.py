@@ -1,25 +1,18 @@
 import pandas as pd
-from credential import client
+
+df = pd.read_csv('output/uk_sentimentResultCombined.csv')
+
+df_positive = df.query('sentiment == "Positive"')
+df_negative = df.query('sentiment == "Negative"')
+df_neutral = df.query('sentiment == "Neutral"')
+df_mixed = df.query('sentiment == "Mixed"')
+
+# print(df_positive.info())
+# print(df_positive.head())
 
 
-client = client()
+df_positive.to_csv('output/uk_SentimentPositiveResult.csv', index=False, header=True)
+df_negative.to_csv('output/uk_SentimentNegativeResult.csv', index=False, header=True)
+df_neutral.to_csv('output/uk_SentimentNeutralResult.csv', index=False, header=True)
+df_mixed.to_csv('output/uk_SentimentMixedResult.csv', index=False, header=True)
 
-df = pd.read_csv('SentimentResult.csv')
-
-df.columns = ['Id', 'Date', 'User', 'Tweet', 'Sentiment', 'Score']
-
-df_positive = df.query('Sentiment == "positive"')
-df_negative = df.query('Sentiment == "negative"')
-df_neutral = df.query('Sentiment == "neutral"')
-
-negativeTweet = []
-# df_negative.to_csv('negativeResult.csv')
-for tweet in df_negative['Tweet']:
-   negativeTweet.append(tweet) 
-
-response  = client.extract_key_phrases(documents=negativeTweet)
-
-
-for post in response:
-    for key_phrase in post.key_phrases:
-        print(key_phrase)

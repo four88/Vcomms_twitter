@@ -7,9 +7,15 @@ import nltk
 nltk.download('words')
 words = set(nltk.corpus.words.words())
 
-query = '"climate change" (flood OR flooding) lang:en until:2022-10-25 since:2021-10-25 -filter:replies'
+# location geocode
+uk_geo = "geocode:54.153709,-4.529766,527km"
+th_geo = "geocode:9.776238,7.742880,800km"
+eu_geo = "geocode:54.321720,0.853746,2050km"
+
+query = '"climate change" (flood OR flooding) lang:en -filter:replies ' + eu_geo 
+print(query)
 tweets = []
-limit = 50
+limit = 50000
 
 print(u"Processing records in data frame...")
 for tweet in sntwitter.TwitterSearchScraper(query).get_items():
@@ -31,7 +37,8 @@ def cleaner(tweet):
     tweet = " ".join(w for w in nltk.wordpunct_tokenize(tweet) 
          if w.lower() in words or not w.isalpha())
     return tweet
+
 df['tweet'] =df['tweet'].map(lambda x: cleaner(x))
 
-df.to_csv('tweetsCleanedNoApi.csv')
+df.to_csv('output/tweetsCleanedNoApi_eu.csv')
 print(u"Processing completed....")

@@ -2,9 +2,11 @@ import pandas as pd
 import requests
 from decouple import config
 
+
 subscription_key = config('subscription_key', default='')
+print(subscription_key)
 headers = {"Ocp-Apim-Subscription-Key": subscription_key}
-endpoint = "https://climatechangecog.cognitiveservices.azure.com/"
+endpoint = "https://vcomcog.cognitiveservices.azure.com/"
 
 sentiment_url = endpoint + "/text/analytics/v3.0/sentiment"
 
@@ -68,9 +70,9 @@ def main(comment_df):
     print(u"Processing records in data frame....")
     for i, row in df2.iterrows():
         print(u"Processing Record... #{}".format(i+1))
-        text_data = df2.loc[i, "tweet"].encode(
-            "utf-8").decode("ascii", "ignore")
+        text_data = df2.loc[i, "tweet"].encode("utf-8").decode("ascii", "ignore")
         sentimentResult = comment_sentiment(text_data, i+1)
+        print(sentimentResult)
         sentimentSummary = comment_summary(sentimentResult)
         # Add result to data frame
         df2.loc[i, "id"] = i+1
@@ -95,11 +97,12 @@ def main(comment_df):
 if __name__ == "__main__":
     # read comment data from csv
     commentData = pd.read_csv(
-        "tweetsCleanedNoApi.csv")
+        "output/tweets_uk_cleaned_dataset.csv")
 
+    print(commentData.head())
     # Remove duplicated record but keep the first occurence of the record
     commentData.drop_duplicates(keep='first', inplace=True)
     # Reindex the data frame to prevent gaps in the indexes
     commentData.reset_index(drop=True, inplace=True)
     df = main(commentData)
-    df.to_csv('sentimentResult2.csv', index=False, header=True)
+    df.to_csv('output/uk_sentimentResult.csv', index=False, header=True)

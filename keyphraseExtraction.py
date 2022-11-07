@@ -4,7 +4,7 @@ from decouple import config
 
 subscription_key = config('subscription_key', default='')
 headers = {"Ocp-Apim-Subscription-Key": subscription_key}
-endpoint = "https://climatechangecog.cognitiveservices.azure.com/"
+endpoint = "https://vcomcog.cognitiveservices.azure.com/"
 keyphrase_url = endpoint + "/text/analytics/v3.0/keyphrases"
 
 # funciton to send req to azure cognative api
@@ -43,8 +43,7 @@ def main(tweet_df):
 
 
 if __name__ == "__main__":
-
-    tweetData = pd.read_csv("tweetsCleanedNoApi.csv")
+    tweetData = pd.read_csv("output/uk_SentimentMixedResult.csv") #chagne file to read here
 
     tweetData.reset_index(drop=True, inplace=True)
     keyphrasesResult = main(tweetData)
@@ -57,4 +56,4 @@ if __name__ == "__main__":
     tweetData = tweetData.explode('keyWord')
 
 print(tweetData.head())
-tweetData.to_csv('keyphrasesExtractionResult.csv', index=False, header=True)
+tweetData.to_csv('output/keyphrases_result/uk_mixed_keyphrasesResult.csv', index=False, header=True)
