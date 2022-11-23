@@ -1,24 +1,18 @@
 import twint 
 import pandas as pd
 from datetime import timedelta
-from os import mkdir, path
+from os import chdir,mkdir, path
 from string import ascii_letters, digits
 
-uk_cities = pd.read_csv('uk_cities.csv')
-uk_cities = uk_cities['TCITY15NM'].values.tolist()
-
-print(uk_cities)
 
 def scrape_by_geo(keywords, geocode,since,until, outfile):
     c = twint.Config()
-    c.Search = keywords #search keyword
-    c.Since = since
+    c.Search = keywords #search keyword c.Since = since
     c.Until = until
     c.Limit = 50000
     c.Geo = geocode
-    # c.Store_csv = True
     c.Store_json = True
-    c.Output = "output/" + outfile
+    c.Output = outfile
     c.Hide_output = True
     c.Count = True
     c.Stats = True
@@ -31,10 +25,10 @@ def clean_name(dirname):
 
 
 def twint_loop(searchterm, geocode, since, until):
-
-    dirname = clean_name("uk")
+    dirname = clean_name("spain") # create folder in output folder
     try:
     # Create target Directory
+        chdir('output') 
         mkdir(dirname)
         print("Directory" , dirname ,  "Created ")
     except FileExistsError:
@@ -53,16 +47,19 @@ def twint_loop(searchterm, geocode, since, until):
         print('Getting %s ' % since )
         scrape_by_geo(searchterm,geocode, since, until, json_name)
 
+
+
 # location geocode
 uk_geo = "54.153709,-4.529766,527km"
 th_geo = "9.776238,7.742880,800km"
 eu_geo = "54.321720,-0.879033,2040km"
+germany_geo ="51.163818,10.447831, 400km"
+usa_geo ="39.128847,-97.644202, 2100km"
+spain_geo = "40.468221,-5.000439, 610km"
 
-since = '2017-01-01'
-until = '2020-11-07'
+# specifid date range for query data
+since = '2021-12-31'
+until = '2022-11-07'
 
-twint_loop("'flooding' OR 'flood' OR 'floods'",uk_geo, '21-05-2021','07-11-2022')
-#
+twint_loop("'flooding' OR 'flood' OR 'floods'",spain_geo, since, until)
 
-
-# scrape_by_city("'flooding' OR 'flood' OR 'floods' OR 'climate change'", since, 'Uk_Tweets_Dataset.csv', uk_cities)

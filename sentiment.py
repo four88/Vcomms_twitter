@@ -6,7 +6,7 @@ from decouple import config
 subscription_key = config('subscription_key', default='')
 print(subscription_key)
 headers = {"Ocp-Apim-Subscription-Key": subscription_key}
-endpoint = "https://vcomcog.cognitiveservices.azure.com/"
+endpoint = "https://vcommscog.cognitiveservices.azure.com/"
 
 sentiment_url = endpoint + "/text/analytics/v3.0/sentiment"
 
@@ -97,7 +97,7 @@ def main(comment_df):
 if __name__ == "__main__":
     # read comment data from csv
     commentData = pd.read_csv(
-        "output/tweets_uk_cleaned_dataset.csv")
+        "output/tweets_spain_cleaned_dataset_2.csv")
 
     print(commentData.head())
     # Remove duplicated record but keep the first occurence of the record
@@ -105,4 +105,4 @@ if __name__ == "__main__":
     # Reindex the data frame to prevent gaps in the indexes
     commentData.reset_index(drop=True, inplace=True)
     df = main(commentData)
-    df.to_csv('output/uk_sentimentResult.csv', index=False, header=True)
+    df.to_csv('output/spain_sentimentResult_2.csv', index=False, header=True)

@@ -9,7 +9,7 @@ from os import mkdir, path
 nltk.download('words')
 words = set(nltk.corpus.words.words())
 
-file_names = glob(path.join('uk','*.json'))
+file_names = glob(path.join('spain','*.json')) # edit folder name to folder that you want to covert all JSON file to CSV
 dfs = [pd.read_json(fn, lines = True) for fn in file_names]
 tweet_df = pd.concat(dfs)
 
@@ -40,5 +40,5 @@ nan = float("NaN")
 tweet_df.replace("",nan, inplace=True)
 tweet_df.dropna(subset=['tweet'],inplace=True)
 
-tweet_df.to_csv('tweets_uk_cleaned_dataset.csv')
+tweet_df.to_csv('tweets_spain_cleaned_dataset.csv') # edit output filename
 
