@@ -17,9 +17,6 @@ of sentiment analysis not accurate.Then Using Azure Cognative service API for an
 Next step is seperate sentiment result into four group 1.Positive 2.Negative 3.Neutral 4.Mixed. Afterthat, Using keyphrases extraction from Azure cognative service API to extract the keyword of each group.
 Finally, Analyze the result and create the dashboard on Power BI.
 
-## Data pipeline flowchart with filename
-![flowchart with out twitter api](./assets/flowchart.png)
-
 ### Prerequeisite
 Before start to implement this Azure accout is required.
 Create resource group. Then create Language service is the part of Cognitive service because we have to use this for 
